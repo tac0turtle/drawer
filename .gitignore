@@ -1,0 +1,9 @@
+*.xcodeproj
+*.xcworkspace
+build/
+DerivedData/
+.build/
+*.swp
+*.DS_Store
+xcuserdata/
+Dozer

@@ -1,0 +1,45 @@
+name: Drawer
+options:
+  usesTabs: false
+  tabWidth: 4
+  createIntermediateGroups: true
+  deploymentTarget:
+    macOS: "14.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    ENABLE_HARDENED_RUNTIME: true
+    PRODUCT_BUNDLE_IDENTIFIER: com.markobaricevic.Drawer
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: 1
+    INFOPLIST_FILE: Resources/Info.plist
+    CODE_SIGN_ENTITLEMENTS: Resources/Drawer.entitlements
+    GENERATE_INFOPLIST_FILE: false
+    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+targets:
+  Drawer:
+    type: application
+    platform: macOS
+    sources:
+      - Sources
+    resources:
+      - Resources/Assets.xcassets
+    scheme:
+      testTargets:
+        - DrawerTests
+  DrawerTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - Tests/DrawerTests
+    dependencies:
+      - target: Drawer
+schemes:
+  Drawer:
+    build:
+      targets:
+        Drawer: all
+    test:
+      targets:
+        - DrawerTests
