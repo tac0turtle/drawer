@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: make generate
+
+      - name: Build
+        run: |
+          xcodebuild -scheme Drawer -configuration Debug \
+            -derivedDataPath DerivedData \
+            build
+
+      - name: Test
+        run: |
+          xcodebuild -scheme Drawer \
+            -derivedDataPath DerivedData \
+            test
+
+  lint:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint
+        run: |
+          brew install swiftlint
+          swiftlint --strict
